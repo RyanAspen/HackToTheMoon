@@ -1,0 +1,12 @@
+# MacOS
+.DS_Store
+
+# editor related
+.idea/
+
+# py
+__pycache__/
+
+# js
+node_modules/
+
