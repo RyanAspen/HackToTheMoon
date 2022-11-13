@@ -1,3 +1,14 @@
+def get_cost_and_time_for_asteroid(input_df, input_config):
+    # Get Cost and Time per Asteroid
+    # Returns total cost and total time for a particular asteroid
+
+    # Extract costs and times
+    total_cost = input_df["COST"].sum()
+    total_time = input_df["TIME"].sum()
+
+    return total_cost, total_time
+
+
 # Endpoint 2: Get Depth, Cost, and Time per Drill
 # Returns a dictionary with each drill, where the values are the depth, cost, and time of the key (drill name)
 def get_depth_cost_and_time_for_asteroid(input_df, input_config):
@@ -29,5 +40,3 @@ def get_depth_cost_and_time_for_asteroid(input_df, input_config):
                 bit_stats[row["DRILL_BIT_NAME"]][1] += cost_per_run
         prev = row
     return bit_stats
-
-

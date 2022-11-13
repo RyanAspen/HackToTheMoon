@@ -1,9 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
-from typing import Optional
-from dataCleaning import *
 from helper_functions import *
-from task1 import *
-from task2 import *
+from data_aggr import *
 
 config = {
     "Buzz Drilldrin": [5000, 1.5, 0],
@@ -11,14 +8,16 @@ config = {
     "Apollo": [1000, 4, 2500],
     "ChallengDriller": [10000, 0, 0],
 }
-cat = ['DRILL_BIT_ID', 'DRILL_BIT_NAME']
+cat = ['DRILL_BIT_ID', 'DRILL_BIT_NAME', 'TIMESTAMP']
 file_dir = "https://raw.githubusercontent.com/ClassicSours/TheInterstellarAsteroidRush/main/Asteroids/Asteroid%20"
 
 data = load_data(file_dir, 2)
-normalized_data = data.copy()
+normalized_data = [0]*len(data)
 for d in range(len(data)):
-    data[d] = remove_outliers(data[d], cat, 15.0)
-    normalized_data[d] = normalize(normalized_data[d], cat)
+    data[d] = data_precessing(data[d], cat, config, 15.0)
+    normalized_data[d] = data[d].copy()
+    normalize(normalized_data[d], cat)
+
 
 app = FastAPI()
 

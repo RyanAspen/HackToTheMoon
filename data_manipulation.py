@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def get_cost_and_time_for_asteroid(input_df, input_config):
+def compute_cost_and_time_for_asteroid(input_df, input_config):
     # Get Cost and Time per Asteroid
     # Returns total cost and total time for a particular asteroid
 
@@ -38,8 +38,38 @@ def get_cost_and_time_for_asteroid(input_df, input_config):
             input_df.at[index, "COST"] += cost_per_run
         prev = row
 
-    # Extract costs and times
-    total_cost = input_df["COST"].sum()
-    total_time = input_df["TIME"].sum()
 
-    return total_cost, total_time
+def compute_timestamp(input_df):
+    timestamp = 0
+    for index, row in input_df.iterrows():
+        timestamp += row["TIME"]
+        input_df.loc[index, "TIMESTAMP"] = timestamp
+
+
+def normalize(input_df, input_cat):
+    # normalize
+    input_cat = set(input_cat)
+    normalized_df = input_df
+    for col in input_df.columns:
+        if col not in input_cat:
+            normalized_df[col] = (input_df[col] - input_df[col].mean()) / input_df[col].std()
+
+
+# remove outliers and anomaly
+def remove_outliers(input_df, input_cat, const):
+    input_cat = set(input_cat)
+    const = const
+    for col in input_df.columns:
+        if col not in input_cat:
+            q1 = input_df[col].quantile(0.25)
+            q3 = input_df[col].quantile(0.75)
+            iqr = (q3 - q1)  # iqr is interquartile range.
+
+            # filter = (normalized_df[col] >= q1 - 1.5 * iqr) & (normalized_df[col] <= q3 + 1.5 *iqr)
+            input_df = input_df[input_df[col] >= q1 - const * iqr]
+            input_df = input_df[input_df[col] <= q3 + const * iqr]
+            input_df = input_df[input_df[col] != 0]
+    return input_df
+
+
+
