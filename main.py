@@ -63,7 +63,7 @@ async def get_cost_and_time_api(asteroid_id):
 
 
 @cache
-async def get_cost_and_time_all():
+def get_cost_and_time_all():
     total_cost_all = []
     total_time_all = []
 
