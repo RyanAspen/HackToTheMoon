@@ -24,7 +24,7 @@ for d in range(len(data)):
     normalize(normalized_data[d], cat)
 
 origins = [
-    "https://loveklmn.github.io",
+    "https://ryanaspen.github.io",
     "http://localhost",
     "http://localhost:8080",
     "http://localhost:4200",
