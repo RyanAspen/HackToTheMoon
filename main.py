@@ -1,8 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from typing import Optional
-from dataCleaning import *
 from helper_functions import *
 from data_aggr import *
 
@@ -52,7 +50,7 @@ async def count():
 
 
 @app.get("/get_cost_and_time")
-async def get_cost_and_time(asteroid_id):
+async def get_cost_and_time(asteroid_id=0):
     total_cost, total_time = get_cost_and_time_for_asteroid(data[int(asteroid_id)-1], config)
     return {asteroid_id: {"total_cost": total_cost, "total_time": total_time}}
 
@@ -70,7 +68,7 @@ async def get_cost_and_time_all():
 
 
 @app.get("/get_efficiencies")
-async def get_efficiencies(asteroid_id):
+async def get_efficiencies(asteroid_id=0):
     bit_stats = get_depth_cost_and_time_for_asteroid(data[int(asteroid_id)-1], config)
     return {asteroid_id: {"bit_stats": bit_stats}}
 
@@ -85,9 +83,14 @@ async def get_efficiencies_all():
     return {i+1: {"bit_stats": bit_stats_all[i]} for i in range(len(bit_stats_all))}
 
 
+@app.get("/get_column")
+async def get_column(asteroid_id=0, column_name="TIMESTAMP"):
+    return {asteroid_id: {column_name: list(data[int(asteroid_id)-1][column_name])}}
 
 
-
+@app.get("/column_names")
+async def get_column_names():
+    return {"column_names": list(data[0].columns)}
 
 
 
