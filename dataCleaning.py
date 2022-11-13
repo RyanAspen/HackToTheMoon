@@ -29,19 +29,3 @@ def remove_outliers(input_df, input_cat, const):
     return new_df
 
 
-if __name__ == "__main__":
-    cat = {'DRILL_BIT_ID', 'DRILL_BIT_NAME'}
-    df = pd.concat(
-        [
-            pd.read_csv(
-                f"https://raw.githubusercontent.com/ClassicSours/TheInterstellarAsteroidRush/main/Asteroids/Asteroid%20{i}.csv"
-            )
-            for i in range(1, 2)
-        ]
-    )
-    df1 = normalize(df, cat)
-    df2 = remove_outliers(df1, cat)
-
-# without_cat = df2.loc[:, ~df2.columns.isin(['DRILL_BIT_ID', 'DRILL_BIT_NAME'])]
-# plt.figure(figsize=(20, 6), dpi=80)
-# sns.boxplot(data=without_cat)
