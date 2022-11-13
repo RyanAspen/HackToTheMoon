@@ -1,4 +1,8 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+from typing import Optional
+from dataCleaning import *
 from helper_functions import *
 from data_aggr import *
 
@@ -18,8 +22,23 @@ for d in range(len(data)):
     normalized_data[d] = data[d].copy()
     normalize(normalized_data[d], cat)
 
+origins = [
+    "https://loveklmn.github.io",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:4200",
+    "http://localhost:4000",
+]
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
