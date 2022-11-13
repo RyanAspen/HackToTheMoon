@@ -28,6 +28,7 @@ origins = [
     "http://localhost:8080",
     "http://localhost:4200",
     "http://localhost:4000",
+    "http://temochacksasteroids.tech",
 ]
 
 app = FastAPI()
